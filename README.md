@@ -3,7 +3,8 @@
 Machetă de site pentru Hotel Internațional din Băile Herculane. Nu este site-ul de producție:
 e varianta propusă, pusă online ca să poată fi văzută și discutată.
 
-**Live:** https://emanuellovin255.github.io/hotel-international/
+**Live:** https://hotel-international.vercel.app/
+**Oglindă pe GitHub Pages:** https://emanuellovin255.github.io/hotel-international/
 
 ## Ideea machetei
 
@@ -94,13 +95,25 @@ numele fișierului (`01.jpg`, `02.jpg`…), iar prima poză din folderul unei ca
 
 ## Deploy
 
-```bash
-npm run deploy
+Site-ul stă în două locuri:
+
+- **Vercel** – se publică singur la fiecare `git push` pe `main`.
+- **GitHub Pages** – manual, cu `npm run deploy` (construiește și împinge `dist/` pe ramura `gh-pages`).
+
+Cele două au nevoie de căi diferite: pe Vercel site-ul stă în rădăcina domeniului, pe GitHub Pages
+în `/hotel-international`. `astro.config.mjs` alege singur, după variabila `VERCEL` pe care o pune
+Vercel la build:
+
+```js
+const onVercel = !!process.env.VERCEL;
+base: onVercel ? '/' : '/hotel-international',
 ```
 
-Publică `dist/` pe ramura `gh-pages`. Pentru un domeniu propriu (`hotel-international.ro`), în
-`astro.config.mjs` se pune `site: 'https://hotel-international.ro'`, se șterge `base` și se adaugă
-fișierul `public/CNAME`.
+Dacă build-ul se face cu base-ul greșit, paginile se încarcă goale: HTML fără CSS, fără JS și fără
+poze, pentru că toate se cer de la un prefix care nu există.
+
+Pentru un domeniu propriu (`hotel-international.ro`), în `astro.config.mjs` se pune
+`site: 'https://hotel-international.ro'` și `base: '/'`.
 
 ## Surse de conținut
 
