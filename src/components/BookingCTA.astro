@@ -1,0 +1,33 @@
+---
+import { ArrowUpRight } from '@lucide/astro';
+import { bookingEngine, bookingLabel } from '../data/site';
+
+/**
+ * Butonul central al site-ului. Site-ul nu afișează tarife: disponibilitatea și
+ * prețurile se văd doar în programul de rezervări al hotelului, iar acest buton
+ * este singura poartă către el. Linkul se schimbă într-un singur loc:
+ * `bookingEngine` din src/data/site.ts.
+ */
+interface Props {
+  /** Stilul butonului. */
+  variant?: 'copper' | 'dark' | 'ghost-light' | 'ghost-dark';
+  /** Text mai scurt, pentru carduri înguste. */
+  short?: boolean;
+  /** Ocupă toată lățimea disponibilă. */
+  full?: boolean;
+  class?: string;
+}
+
+const { variant = 'copper', short = false, full = false, class: className = '' } = Astro.props;
+const label = short ? 'Disponibilitate și tarife' : bookingLabel;
+---
+
+<a
+  href={bookingEngine}
+  target="_blank"
+  rel="noopener noreferrer"
+  class:list={['btn', `btn-${variant}`, full && 'w-full', className]}
+>
+  {label}
+  <ArrowUpRight size={16} stroke-width={2} />
+</a>

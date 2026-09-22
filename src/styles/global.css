@@ -1,0 +1,479 @@
+@import 'tailwindcss';
+@import '@fontsource-variable/bodoni-moda/opsz.css';
+@import '@fontsource-variable/bodoni-moda/opsz-italic.css';
+@import '@fontsource-variable/instrument-sans';
+
+@theme {
+  /* Apa termală a stațiunii */
+  --color-thermal-950: #05161a;
+  --color-thermal-900: #082129;
+  --color-thermal-800: #0d3039;
+  --color-thermal-700: #12414d;
+  --color-thermal-600: #185666;
+  --color-mineral-500: #2c8593;
+  --color-mineral-400: #4da4ae;
+  --color-mineral-300: #8ec7cd;
+
+  /* Piatra și travertinul stațiunii */
+  --color-travertine-50: #fcfaf6;
+  --color-travertine-100: #f5f0e7;
+  --color-travertine-200: #eae1d3;
+  --color-travertine-300: #d9ccb8;
+
+  /* Accentul de cupru — continuă ambra din sigla hotelului */
+  --color-copper-200: #f0d0ad;
+  --color-copper-300: #e0b083;
+  --color-copper-400: #c98f56;
+  --color-copper-500: #a9703c;
+  --color-copper-600: #7c4f26;
+
+  --color-ink: #082129;
+  --color-muted: #566c73;
+
+  --font-serif: 'Bodoni Moda Variable', 'Didot', 'Playfair Display', Georgia, serif;
+  --font-sans: 'Instrument Sans Variable', ui-sans-serif, system-ui, sans-serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+@layer base {
+  :root {
+    --gutter: clamp(1rem, 4vw, 3.5rem);
+    --header-h: 5rem;
+    color-scheme: light;
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: auto;
+  }
+
+  body {
+    background: var(--color-travertine-100);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    overflow-x: clip;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    line-height: 1.04;
+    letter-spacing: -0.015em;
+    font-variation-settings: 'opsz' 96;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-copper-300);
+    color: var(--color-thermal-900);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-copper-400);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  img {
+    user-select: none;
+  }
+}
+
+/* Tranziții native între pagini */
+@view-transition {
+  navigation: auto;
+}
+::view-transition-old(root) {
+  animation: 260ms var(--ease-in-out-quart) both vt-out;
+}
+::view-transition-new(root) {
+  animation: 520ms var(--ease-out-expo) both vt-in;
+}
+@keyframes vt-out {
+  to { opacity: 0; transform: translateY(-12px); }
+}
+@keyframes vt-in {
+  from { opacity: 0; transform: translateY(18px); }
+}
+
+@layer components {
+  .container-x {
+    width: 100%;
+    max-width: 88rem;
+    margin-inline: auto;
+    padding-inline: var(--gutter);
+  }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--color-copper-600);
+  }
+  .eyebrow::before {
+    content: '';
+    width: 2.25rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.7;
+  }
+  .eyebrow-light {
+    color: var(--color-copper-300);
+  }
+
+  .display-xl {
+    font-size: clamp(3.1rem, 10vw, 10rem);
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+  }
+  .display-lg {
+    font-size: clamp(2.5rem, 6vw, 5.75rem);
+    line-height: 0.98;
+    letter-spacing: -0.025em;
+  }
+  .display-md {
+    font-size: clamp(2rem, 4vw, 3.75rem);
+  }
+  .display-sm {
+    font-size: clamp(1.55rem, 2.5vw, 2.3rem);
+  }
+  .italic-serif {
+    font-style: italic;
+  }
+
+  .skip-link {
+    position: fixed;
+    left: 1rem;
+    top: 1rem;
+    z-index: 100;
+    padding: 0.75rem 1.25rem;
+    border-radius: 999px;
+    background: var(--color-travertine-50);
+    color: var(--color-thermal-900);
+    font-size: 0.875rem;
+    font-weight: 700;
+    transform: translateY(-200%);
+    transition: transform 0.3s ease;
+  }
+  .skip-link:focus {
+    transform: none;
+  }
+
+  .lead {
+    font-size: clamp(1.1rem, 1.4vw, 1.3rem);
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+
+  .btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 1rem 1.75rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    line-height: 1;
+    overflow: hidden;
+    isolation: isolate;
+    transition: color 0.5s var(--ease-out-expo), border-color 0.5s var(--ease-out-expo), transform 0.5s var(--ease-out-expo);
+    text-align: center;
+  }
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    transform: translateY(101%);
+    transition: transform 0.6s var(--ease-out-expo);
+  }
+  .btn:hover::after {
+    transform: translateY(0);
+  }
+  .btn svg {
+    flex: none;
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+  .btn:hover svg {
+    transform: translateX(3px);
+  }
+
+  .btn-copper {
+    background: var(--color-copper-400);
+    color: var(--color-thermal-950);
+  }
+  .btn-copper::after {
+    background: var(--color-travertine-50);
+  }
+
+  .btn-dark {
+    background: var(--color-thermal-800);
+    color: var(--color-travertine-50);
+  }
+  .btn-dark::after {
+    background: var(--color-copper-400);
+  }
+  .btn-dark:hover {
+    color: var(--color-thermal-950);
+  }
+
+  .btn-ghost-light {
+    border: 1px solid rgb(255 255 255 / 0.45);
+    color: #fff;
+  }
+  .btn-ghost-light::after {
+    background: #fff;
+  }
+  .btn-ghost-light:hover {
+    color: var(--color-thermal-900);
+  }
+
+  .btn-ghost-dark {
+    border: 1px solid rgb(8 33 41 / 0.25);
+    color: var(--color-thermal-900);
+  }
+  .btn-ghost-dark::after {
+    background: var(--color-thermal-800);
+  }
+  .btn-ghost-dark:hover {
+    color: var(--color-travertine-50);
+  }
+
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.6s var(--ease-out-expo);
+  }
+  .link-underline:hover,
+  .link-underline[aria-current='page'] {
+    background-size: 100% 1px;
+  }
+
+  .arrow-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .arrow-link svg {
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+  .arrow-link:hover svg {
+    transform: translateX(5px);
+  }
+
+  .hairline {
+    height: 1px;
+    background: currentColor;
+    opacity: 0.15;
+  }
+
+  .img-cover {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .field label {
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .field input,
+  .field select,
+  .field textarea {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgb(8 33 41 / 0.2);
+    padding: 0.7rem 0;
+    font-size: 1.05rem;
+    color: var(--color-ink);
+    border-radius: 0;
+    transition: border-color 0.4s var(--ease-out-expo);
+  }
+  .field textarea {
+    resize: vertical;
+    min-height: 7rem;
+  }
+  .field input:focus,
+  .field select:focus,
+  .field textarea:focus {
+    outline: none;
+    border-bottom-color: var(--color-copper-400);
+  }
+
+  /* Filet subțire de „apă” — folosit ca separator de secțiune */
+  .water-rule {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-mineral-400) 20%,
+      var(--color-copper-400) 50%,
+      var(--color-mineral-400) 80%,
+      transparent
+    );
+    opacity: 0.45;
+  }
+
+  .grain::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.06;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+/* ——— Animații ———
+   Stările inițiale se aplică doar când JS rulează (clasa .js pe <html>),
+   iar .motion-fallback le anulează dacă scriptul nu pornește. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(36px);
+}
+.js [data-reveal-img] {
+  clip-path: inset(100% 0 0 0);
+}
+.js [data-split] {
+  visibility: hidden;
+}
+.motion-fallback [data-reveal],
+.motion-fallback [data-reveal-img],
+.motion-fallback [data-split] {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+  visibility: visible !important;
+}
+
+/* Măștile de linie create de SplitText: loc pentru descendente (g, y, ș) și italice */
+[data-split] > .split-line-mask {
+  padding: 0.06em 0.12em 0.18em;
+  margin: -0.06em -0.12em -0.18em;
+}
+
+/* Hero: zoom lent, o singură dată */
+.js .hero-zoom {
+  animation: kenburns 16s var(--ease-out-expo) forwards;
+}
+@keyframes kenburns {
+  from { transform: scale(1.14); }
+  to { transform: scale(1); }
+}
+
+/* Marquee */
+.marquee-track {
+  animation: marquee 42s linear infinite;
+}
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Scroll cue */
+.scroll-cue::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 40%;
+  background: #fff;
+  animation: cue 2.2s var(--ease-in-out-quart) infinite;
+}
+@keyframes cue {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(250%); }
+}
+
+/* Galerie masonry */
+.masonry {
+  columns: 1;
+  column-gap: 1rem;
+}
+@media (min-width: 640px) {
+  .masonry { columns: 2; }
+}
+@media (min-width: 1024px) {
+  .masonry { columns: 3; column-gap: 1.25rem; }
+}
+.masonry > * {
+  break-inside: avoid;
+  margin-bottom: 1rem;
+}
+@media (min-width: 1024px) {
+  .masonry > * { margin-bottom: 1.25rem; }
+}
+
+/* Scroll orizontal nativ (mobil) */
+.h-scroll {
+  scrollbar-width: none;
+  scroll-snap-type: x mandatory;
+}
+.h-scroll::-webkit-scrollbar {
+  display: none;
+}
+.h-scroll > * {
+  scroll-snap-align: start;
+}
+
+/* FAQ */
+details summary::-webkit-details-marker {
+  display: none;
+}
+details[open] .faq-icon {
+  transform: rotate(45deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .js [data-reveal],
+  .js [data-reveal-img],
+  .js [data-split] {
+    opacity: 1;
+    transform: none;
+    clip-path: none;
+    visibility: visible;
+  }
+}

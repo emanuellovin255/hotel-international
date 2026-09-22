@@ -1,0 +1,121 @@
+---
+import '../styles/global.css';
+import type { ImageMetadata } from 'astro';
+import { getImage } from 'astro:assets';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileCTA from '../components/MobileCTA.astro';
+import { site, bookingEngine } from '../data/site';
+import { photo } from '../lib/photos';
+import { url } from '../lib/url';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: ImageMetadata;
+}
+
+const { title, description = site.description, image = photo('piscina/01') } = Astro.props;
+
+const longTitle = `${title} | ${site.shortName}, Băile Herculane`;
+const fullTitle = title
+  ? longTitle.length <= 62
+    ? longTitle
+    : `${title} | ${site.shortName}`
+  : `${site.name} *** – Cazare și tratament în Băile Herculane`;
+
+const og = await getImage({ src: image, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(og.src, Astro.site);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Hotel',
+  name: `${site.name} ***`,
+  description: site.description,
+  url: new URL(url('/'), Astro.site).href,
+  image: ogImage.href,
+  telephone: '+40784258852',
+  email: site.email,
+  starRating: { '@type': 'Rating', ratingValue: String(site.stars) },
+  checkinTime: '15:00',
+  checkoutTime: '11:30',
+  petsAllowed: false,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: site.address.street,
+    addressLocality: site.address.city,
+    addressRegion: site.address.county,
+    postalCode: site.address.zip,
+    addressCountry: 'RO',
+  },
+  aggregateRating: {
+    '@type': 'AggregateRating',
+    ratingValue: '8.7',
+    bestRating: '10',
+    ratingCount: 118,
+  },
+  amenityFeature: [
+    'Bazin cu apă termo-sulfuroasă',
+    'Bază de tratament',
+    'Centru SPA',
+    'Saună',
+    'Sală de fitness',
+    'Restaurant',
+    'Bar',
+    'Sală de conferințe',
+    'Parcare privată gratuită',
+    'WiFi gratuit',
+    'Lift',
+  ].map((name) => ({ '@type': 'LocationFeatureSpecification', name, value: true })),
+  knowsLanguage: ['ro', 'en'],
+  potentialAction: {
+    '@type': 'ReserveAction',
+    target: { '@type': 'EntryPoint', urlTemplate: bookingEngine },
+    result: { '@type': 'LodgingReservation', name: 'Rezervare la Hotel Internațional' },
+  },
+  sameAs: [site.bookingComUrl],
+};
+---
+
+<!doctype html>
+<html lang="ro" class="no-js">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={url('/favicon.svg')} />
+    <link rel="sitemap" href={url('/sitemap.xml')} />
+    <meta name="theme-color" content="#082129" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ro_RO" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <script is:inline src={url('/init.js')}></script>
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a href="#main" class="skip-link">Sari la conținut</a>
+
+    <Header />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+    <MobileCTA />
+
+    <script>
+      import '../scripts/motion.ts';
+    </script>
+  </body>
+</html>

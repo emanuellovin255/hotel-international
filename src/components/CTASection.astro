@@ -1,0 +1,40 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+import { Phone } from '@lucide/astro';
+import BookingCTA from './BookingCTA.astro';
+import { site } from '../data/site';
+import { photo } from '../lib/photos';
+
+interface Props {
+  image?: ImageMetadata;
+  title?: string;
+  text?: string;
+  position?: string;
+}
+
+const {
+  image = photo('exterior/02'),
+  title = 'Vă așteptăm la <em class="italic-serif">Internațional</em>',
+  text = 'Camerele libere și tarifele lor, pentru perioada dorită, se văd direct în programul de rezervări al hotelului — actualizate în timp real de recepție.',
+  position = 'center 35%',
+} = Astro.props;
+---
+
+<section class="relative overflow-hidden bg-thermal-900 text-white">
+  <div class="absolute inset-x-0 -top-[15%] h-[130%]" data-parallax="10">
+    <Image src={image} alt="" widths={[768, 1280, 1920]} sizes="100vw" class="img-cover" style={`object-position:${position}`} />
+  </div>
+  <div class="absolute inset-0 bg-thermal-950/65"></div>
+  <div class="container-x relative flex min-h-[78svh] flex-col items-center justify-center py-32 text-center">
+    <p class="eyebrow eyebrow-light justify-center" data-reveal>Rezervări</p>
+    <h2 class="display-lg mt-7 max-w-4xl" data-split set:html={title} />
+    <p class="mt-8 max-w-xl text-lg text-white/80" data-reveal>{text}</p>
+    <div class="mt-12 flex flex-col items-center gap-4 sm:flex-row" data-reveal>
+      <BookingCTA />
+      <a href={site.phoneHref} class="btn btn-ghost-light">
+        <Phone size={15} /> {site.phone}
+      </a>
+    </div>
+  </div>
+</section>

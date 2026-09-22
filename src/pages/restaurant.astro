@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets';
+import { UtensilsCrossed, Wine, Sun } from '@lucide/astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import PriceNote from '../components/PriceNote.astro';
+import CTASection from '../components/CTASection.astro';
+import { meals, mealNote } from '../data/site';
+import { photo } from '../lib/photos';
+
+const highlights = [
+  { icon: UtensilsCrossed, title: '40 de locuri', text: 'O sală cu aer condiționat, aranjată pentru mese liniștite.' },
+  { icon: Wine, title: 'Bar de zi', text: 'În cadrul restaurantului, pentru o cafea sau un pahar de vin.' },
+  { icon: Sun, title: 'Terasă în aer liber', text: 'Frumos amenajată, pentru serile calde de vară.' },
+];
+---
+
+<BaseLayout
+  title="Restaurant"
+  description="Restaurantul Hotelului Internațional din Băile Herculane: 40 de locuri, preparate tradiționale românești, bar de zi și terasă în aer liber."
+  image={photo('restaurant/01')}
+>
+  <PageHero
+    eyebrow="Restaurant"
+    title='Preparate tradiționale, <em class="italic-serif">gătite la comandă</em>'
+    subtitle="Rafinat și elegant, restaurantul hotelului vă oferă o gamă diversă de preparate românești, într-un cadru ambiental plăcut."
+    image={photo('restaurant/02')}
+    alt="Sala restaurantului hotelului"
+  />
+
+  <section class="bg-travertine-100 py-24 md:py-32">
+    <div class="container-x grid items-center gap-16 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-6">
+        <div class="overflow-hidden rounded-[1.75rem]" data-reveal-img>
+          <div class="aspect-[4/3]">
+            <Image
+              src={photo('restaurant/01')}
+              alt="Mesele restaurantului, pregătite pentru cină"
+              widths={[640, 1024, 1400]}
+              sizes="(min-width: 1024px) 48vw, 100vw"
+              class="img-cover"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="lg:col-span-6 lg:pl-8">
+        <SectionHeading eyebrow="Sala" title='Un cadru <em class="italic-serif">ambiental plăcut</em>' size="md" />
+        <p class="lead mt-8" data-reveal>
+          Restaurantul are o capacitate de 40 de locuri și o gamă diversă de preparate tradiționale românești,
+          pregătite special pentru dumneavoastră. În cadrul lui funcționează și un bar de zi, iar terasa în aer
+          liber vă oferă un loc liniștit pentru serile calde de vară.
+        </p>
+        <ul class="mt-12 space-y-7">
+          {
+            highlights.map((h, i) => (
+              <li class="flex gap-5" data-reveal data-delay={i * 0.07}>
+                <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-thermal-900/15 text-copper-600">
+                  <h.icon size={20} stroke-width={1.35} />
+                </span>
+                <div>
+                  <h3 class="font-serif text-[1.35rem] leading-tight text-thermal-900">{h.title}</h3>
+                  <p class="mt-1.5 text-[0.93rem] text-muted">{h.text}</p>
+                </div>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- REGIMURI DE MASĂ -->
+  <section class="bg-travertine-50 py-24 md:py-32">
+    <div class="container-x">
+      <SectionHeading
+        eyebrow="Regimuri de masă"
+        title="Cum se servește masa"
+        text="Regimul se alege la rezervare, odată cu camera. Ce include fiecare și cât costă se vede tot acolo."
+      />
+      <ul class="mt-16 grid gap-px overflow-hidden rounded-[1.75rem] bg-thermal-900/10 md:grid-cols-3">
+        {
+          meals.map((m, i) => (
+            <li class="bg-travertine-50 p-8 md:p-10" data-reveal data-delay={i * 0.08}>
+              <span class="font-serif text-4xl italic text-copper-400">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="mt-6 font-serif text-[1.5rem] leading-tight text-thermal-900">{m.name}</h3>
+              <p class="mt-3 text-[0.95rem] leading-relaxed text-muted">{m.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-10 max-w-2xl text-muted" data-reveal>{mealNote}</p>
+      <PriceNote class="mt-14" />
+    </div>
+  </section>
+
+  <CTASection image={photo('restaurant/03')} />
+</BaseLayout>

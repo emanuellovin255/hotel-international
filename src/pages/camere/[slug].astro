@@ -1,0 +1,136 @@
+---
+import { Image } from 'astro:assets';
+import { Users, BedDouble, Eye, ArrowLeft, Info } from '@lucide/astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import PageHero from '../../components/PageHero.astro';
+import BookingCTA from '../../components/BookingCTA.astro';
+import RoomCard from '../../components/RoomCard.astro';
+import Gallery from '../../components/Gallery.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import CTASection from '../../components/CTASection.astro';
+import { rooms } from '../../data/rooms';
+import { site, bookingLabel } from '../../data/site';
+import { photos } from '../../lib/photos';
+import { url } from '../../lib/url';
+
+export function getStaticPaths() {
+  return rooms.map((room) => ({ params: { slug: room.slug }, props: { room } }));
+}
+
+const { room } = Astro.props;
+const pics = photos(room.folder);
+const others = rooms.filter((r) => r.slug !== room.slug);
+const items = pics.map((src, i) => ({ src, alt: `${room.name} – fotografia ${i + 1}` }));
+---
+
+<BaseLayout title={room.name} description={room.description} image={pics[0]}>
+  <PageHero
+    eyebrow={room.highlight}
+    crumb={room.short}
+    title={room.name}
+    subtitle={room.intro}
+    image={pics[0]}
+    alt={room.name}
+  />
+
+  <section class="bg-travertine-100 py-24 md:py-32">
+    <div class="container-x grid gap-16 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-7">
+        <a href={url('/camere')} class="arrow-link text-muted hover:text-thermal-800" data-reveal>
+          <ArrowLeft size={15} /> Toate camerele
+        </a>
+        <h2 class="display-md mt-8" data-split>Despre cameră</h2>
+        <p class="lead mt-8" data-reveal>{room.description}</p>
+
+        {
+          room.note && (
+            <p class="mt-8 flex gap-3 rounded-2xl border border-thermal-900/10 bg-travertine-50 p-5 text-[0.93rem] text-muted" data-reveal>
+              <Info size={18} stroke-width={1.5} class="mt-0.5 shrink-0 text-copper-600" />
+              {room.note}
+            </p>
+          )
+        }
+
+        <h3 class="eyebrow mt-14 font-sans" data-reveal>Dotări</h3>
+        <ul class="mt-7 grid gap-x-8 gap-y-3 text-[0.95rem] text-muted sm:grid-cols-2" data-reveal>
+          {
+            room.features.map((f) => (
+              <li class="flex gap-2.5">
+                <span class="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-copper-400" aria-hidden="true" />
+                {f}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <aside class="lg:col-span-5 lg:pl-8">
+        <div class="sticky top-28 rounded-[1.75rem] border border-thermal-900/10 bg-travertine-50 p-8 md:p-10" data-reveal>
+          <dl class="space-y-6">
+            <div class="flex items-start gap-4">
+              <Users size={20} stroke-width={1.4} class="mt-1 shrink-0 text-copper-600" />
+              <div>
+                <dt class="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-muted">Capacitate</dt>
+                <dd class="mt-1 font-serif text-xl text-thermal-900">
+                  până la {room.guests} {room.guests === 1 ? 'persoană' : 'persoane'}
+                </dd>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <BedDouble size={20} stroke-width={1.4} class="mt-1 shrink-0 text-copper-600" />
+              <div>
+                <dt class="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-muted">Paturi</dt>
+                <dd class="mt-1 space-y-0.5 text-[0.98rem] text-thermal-900">
+                  {room.beds.map((b) => <p>{b}</p>)}
+                </dd>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <Eye size={20} stroke-width={1.4} class="mt-1 shrink-0 text-copper-600" />
+              <div>
+                <dt class="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-muted">Vedere</dt>
+                <dd class="mt-1 text-[0.98rem] text-thermal-900">{room.views.join(' · ')}</dd>
+              </div>
+            </div>
+          </dl>
+
+          <div class="mt-9 border-t border-thermal-900/10 pt-8">
+            <p class="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-muted">Tarif</p>
+            <p class="mt-2 font-serif text-[1.55rem] leading-snug text-thermal-900">
+              Se vede în <em class="italic-serif text-copper-600">programul de rezervări</em>
+            </p>
+            <p class="mt-3 text-[0.9rem] leading-relaxed text-muted">
+              Alegeți perioada și vedeți pe loc dacă această cameră este liberă și cât costă, cu tot cu regimul de masă.
+            </p>
+            <BookingCTA full class="mt-7" />
+            <p class="mt-5 text-center text-[0.85rem] text-muted">
+              sau sunați la <a href={site.phoneHref} class="link-underline font-semibold text-thermal-800">{site.phone}</a>
+            </p>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- GALERIA CAMEREI -->
+  <section class="bg-travertine-50 py-24 md:py-32">
+    <div class="container-x">
+      <SectionHeading eyebrow="Fotografii" title={`${room.name} în imagini`} size="md" />
+      <div class="mt-14">
+        <Gallery items={items} layout="grid" />
+      </div>
+    </div>
+  </section>
+
+  <!-- ALTE CAMERE -->
+  <section class="bg-travertine-100 py-24 md:py-32">
+    <div class="container-x">
+      <SectionHeading eyebrow="Alte variante" title="Poate vi se potrivește mai bine" size="md" />
+      <div class="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {others.map((r, i) => <RoomCard room={r} index={i} />)}
+      </div>
+    </div>
+  </section>
+
+  <CTASection title={`Rezervați ${room.name.toLowerCase()}`} text={`${bookingLabel} pentru perioada dorită, direct în programul hotelului.`} />
+</BaseLayout>

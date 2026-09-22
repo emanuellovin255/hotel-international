@@ -1,0 +1,130 @@
+---
+import { Image } from 'astro:assets';
+import { Waves, Flame, Dumbbell } from '@lucide/astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import PriceNote from '../components/PriceNote.astro';
+import CTASection from '../components/CTASection.astro';
+import { pool, spaServices, water } from '../data/treatments';
+import { photo } from '../lib/photos';
+
+const included = [
+  { icon: Waves, title: 'Bazin termo-sulfuros', text: 'Acoperit, alimentat de la sursă. Acces gratuit pentru oaspeți.' },
+  { icon: Flame, title: 'Saună', text: 'Saună uscată, cu program afișat la recepție.' },
+  { icon: Dumbbell, title: 'Sală de fitness', text: 'Pentru cine vrea să miște și între proceduri.' },
+];
+---
+
+<BaseLayout
+  title="SPA și piscină"
+  description="Bazin acoperit cu apă termo-sulfuroasă de 30 mp, centru SPA cu împachetări, masaje, jacuzzi și duș subacval, saună și sală de fitness la Hotel Internațional Băile Herculane."
+  image={photo('piscina/01')}
+>
+  <PageHero
+    eyebrow="SPA & Piscină"
+    crumb="SPA & Piscină"
+    title='Apa caldă, la <em class="italic-serif">câțiva pași de cameră</em>'
+    subtitle="Bazinul, sauna și sala de fitness sunt incluse în sejur. Procedurile de la centrul SPA se aleg separat, la recepție."
+    image={photo('piscina/01')}
+    alt="Bazinul exterior al hotelului, cu munții în fundal"
+    position="center 45%"
+  />
+
+  <!-- INCLUSE -->
+  <section class="bg-travertine-100 py-24 md:py-32">
+    <div class="container-x">
+      <SectionHeading
+        eyebrow="Incluse în sejur"
+        title="Trei lucruri pentru care nu plătiți în plus"
+        text="Accesul la bazinul cu apă termo-sulfuroasă, la saună (cu program) și la sala de fitness este gratuit pentru oaspeții hotelului."
+      />
+      <ul class="mt-16 grid gap-px overflow-hidden rounded-[1.75rem] bg-thermal-900/10 md:grid-cols-3">
+        {
+          included.map((f, i) => (
+            <li class="bg-travertine-50 p-8 md:p-10" data-reveal data-delay={i * 0.08}>
+              <f.icon size={28} stroke-width={1.25} class="text-copper-600" />
+              <h3 class="mt-7 font-serif text-[1.5rem] leading-tight text-thermal-900">{f.title}</h3>
+              <p class="mt-3 text-[0.95rem] leading-relaxed text-muted">{f.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <!-- BAZINUL -->
+  <section class="bg-travertine-50 py-24 md:py-32">
+    <div class="container-x grid items-center gap-16 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-7">
+        <div class="overflow-hidden rounded-[1.75rem]" data-reveal-img>
+          <div class="aspect-[4/3]">
+            <Image
+              src={photo('piscina/02')}
+              alt="Bazinul acoperit cu apă termo-sulfuroasă"
+              widths={[640, 1024, 1400]}
+              sizes="(min-width: 1024px) 55vw, 100vw"
+              class="img-cover"
+            />
+          </div>
+        </div>
+        <div class="mt-5 grid grid-cols-2 gap-5">
+          <div class="overflow-hidden rounded-[1.25rem]" data-reveal-img data-delay="0.12">
+            <div class="aspect-[4/3]">
+              <Image src={photo('piscina/04')} alt="Terasa cu șezlonguri de lângă bazin" widths={[400, 700]} sizes="27vw" class="img-cover" />
+            </div>
+          </div>
+          <div class="overflow-hidden rounded-[1.25rem]" data-reveal-img data-delay="0.2">
+            <div class="aspect-[4/3]">
+              <Image src={photo('spa/02')} alt="Sauna hotelului" widths={[400, 700]} sizes="27vw" class="img-cover" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="lg:col-span-5 lg:pl-8">
+        <SectionHeading eyebrow="Bazinul" title='Treizeci de metri pătrați de <em class="italic-serif">apă termală</em>' size="md" />
+        <p class="lead mt-8" data-reveal>{pool.text}</p>
+        <dl class="mt-12 grid grid-cols-2 gap-8" data-reveal>
+          <div>
+            <dt class="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-muted">Suprafață</dt>
+            <dd class="mt-2 font-serif text-4xl text-thermal-900">{pool.area} mp</dd>
+          </div>
+          <div>
+            <dt class="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-muted">Adâncime maximă</dt>
+            <dd class="mt-2 font-serif text-4xl text-thermal-900">{pool.depth} m</dd>
+          </div>
+        </dl>
+        <p class="mt-8 text-[0.95rem] text-muted" data-reveal>
+          Apa este {water.type}, cu {water.mineralisation}.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CENTRUL SPA -->
+  <section class="bg-thermal-900 py-24 text-travertine-50 md:py-32">
+    <div class="container-x">
+      <SectionHeading
+        eyebrow="Centrul SPA"
+        title='Un loc pentru <em class="italic-serif">recreere activă</em>'
+        text="Centrul SPA din cadrul hotelului este gândit ca o completare a curei: după proceduri, un masaj sau o împachetare."
+        light
+      />
+      <ul class="mt-16 grid gap-px overflow-hidden rounded-[1.75rem] bg-travertine-100/10 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          spaServices.map((s, i) => (
+            <li class="bg-thermal-900 p-8 md:p-10" data-reveal data-delay={(i % 3) * 0.07}>
+              <h3 class="font-serif text-[1.45rem] leading-tight">{s.title}</h3>
+              <p class="mt-3 text-[0.95rem] leading-relaxed text-travertine-100/70">{s.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mt-16">
+        <PriceNote dark />
+      </div>
+    </div>
+  </section>
+
+  <CTASection image={photo('piscina/01')} position="center 45%" />
+</BaseLayout>

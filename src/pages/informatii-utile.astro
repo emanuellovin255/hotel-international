@@ -1,0 +1,173 @@
+---
+import { Phone, Mail, MapPin, Plus, Clock } from '@lucide/astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import MapEmbed from '../components/MapEmbed.astro';
+import BookingCTA from '../components/BookingCTA.astro';
+import CTASection from '../components/CTASection.astro';
+import { site, policies, faq, fullAddress, mapsLink, bookingLabel } from '../data/site';
+import { photo } from '../lib/photos';
+
+const subject = encodeURIComponent('Cerere de informații – Hotel Internațional');
+---
+
+<BaseLayout
+  title="Informații utile"
+  description="Contact, check-in și check-out, politici și întrebări frecvente pentru Hotel Internațional*** din Băile Herculane."
+  image={photo('receptie/01')}
+>
+  <PageHero
+    eyebrow="Informații"
+    crumb="Informații utile"
+    title='Tot ce e bine de știut <em class="italic-serif">înainte de sosire</em>'
+    subtitle="Program, politici, contact și răspunsuri la întrebările pe care ni le pun cel mai des oaspeții."
+    image={photo('exterior/03')}
+    alt="Intrarea în Hotelul Internațional"
+  />
+
+  <!-- PANOUL DE REZERVĂRI -->
+  <section class="bg-travertine-100 py-24 md:py-32">
+    <div class="container-x">
+      <div class="grid gap-14 overflow-hidden rounded-[1.75rem] bg-thermal-900 p-8 text-travertine-50 md:p-14 lg:grid-cols-12 lg:gap-12">
+        <div class="lg:col-span-7">
+          <p class="eyebrow eyebrow-light" data-reveal>Rezervări</p>
+          <h2 class="display-md mt-6" data-split>
+            Tarifele și camerele libere, <em class="italic-serif">într-un singur loc</em>
+          </h2>
+          <p class="lead mt-8 !text-travertine-100/75" data-reveal>
+            Acest site ține descrierile, pozele și informațiile despre hotel. Prețurile și disponibilitatea le ține
+            programul de rezervări al recepției — acolo sunt mereu la zi, pentru orice perioadă și orice regim de masă.
+            Alegeți datele și le vedeți pe toate deodată, fără să sunați.
+          </p>
+          <div class="mt-10 flex flex-col gap-4 sm:flex-row" data-reveal>
+            <BookingCTA />
+            <a href={site.phoneHref} class="btn btn-ghost-light">
+              <Phone size={15} /> {site.phone}
+            </a>
+          </div>
+        </div>
+        <div class="lg:col-span-5 lg:border-l lg:border-travertine-100/15 lg:pl-12">
+          <h3 class="eyebrow eyebrow-light font-sans" data-reveal>Program</h3>
+          <dl class="mt-7 space-y-6" data-reveal>
+            <div class="flex items-start gap-4">
+              <Clock size={20} stroke-width={1.4} class="mt-1 shrink-0 text-copper-300" />
+              <div>
+                <dt class="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-travertine-100/60">Check-in</dt>
+                <dd class="mt-1 font-serif text-2xl">{site.checkIn}</dd>
+              </div>
+            </div>
+            <div class="flex items-start gap-4">
+              <Clock size={20} stroke-width={1.4} class="mt-1 shrink-0 text-copper-300" />
+              <div>
+                <dt class="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-travertine-100/60">Check-out</dt>
+                <dd class="mt-1 font-serif text-2xl">{site.checkOut}</dd>
+              </div>
+            </div>
+          </dl>
+          <p class="mt-8 text-[0.93rem] text-travertine-100/70">
+            Dacă ajungeți în afara acestui interval, anunțați-ne la telefon și găsim o soluție.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="bg-travertine-50 py-24 md:py-32">
+    <div class="container-x grid gap-16 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-5">
+        <SectionHeading eyebrow="Contact" title='Vă stăm la <em class="italic-serif">dispoziție</em>' size="md" />
+        <ul class="mt-12 space-y-7">
+          <li class="flex gap-5" data-reveal>
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-thermal-900/15 text-copper-600">
+              <MapPin size={19} stroke-width={1.4} />
+            </span>
+            <div>
+              <p class="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-muted">Adresă</p>
+              <a href={mapsLink} target="_blank" rel="noopener noreferrer" class="link-underline mt-1.5 block text-[1.05rem] text-thermal-900">
+                {fullAddress}
+              </a>
+            </div>
+          </li>
+          <li class="flex gap-5" data-reveal data-delay="0.06">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-thermal-900/15 text-copper-600">
+              <Phone size={19} stroke-width={1.4} />
+            </span>
+            <div>
+              <p class="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-muted">Telefon</p>
+              <a href={site.phoneHref} class="link-underline mt-1.5 block text-[1.05rem] text-thermal-900">{site.phone}</a>
+              <a href={site.phone2Href} class="link-underline mt-0.5 block text-[1.05rem] text-thermal-900">{site.phone2}</a>
+            </div>
+          </li>
+          <li class="flex gap-5" data-reveal data-delay="0.12">
+            <span class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-thermal-900/15 text-copper-600">
+              <Mail size={19} stroke-width={1.4} />
+            </span>
+            <div>
+              <p class="text-[0.66rem] font-semibold uppercase tracking-[0.2em] text-muted">Email</p>
+              <a href={`mailto:${site.email}?subject=${subject}`} class="link-underline mt-1.5 block break-all text-[1.05rem] text-thermal-900">
+                {site.email}
+              </a>
+            </div>
+          </li>
+        </ul>
+        <p class="mt-10 text-[0.93rem] text-muted" data-reveal>
+          La recepție se vorbește {site.languages.join(' și ').toLowerCase()}.
+        </p>
+      </div>
+      <div class="lg:col-span-7">
+        <MapEmbed class="h-full" />
+      </div>
+    </div>
+  </section>
+
+  <!-- POLITICI -->
+  <section class="bg-travertine-100 py-24 md:py-32">
+    <div class="container-x">
+      <SectionHeading eyebrow="Politici" title="Regulile casei" />
+      <div class="mt-16 grid gap-px overflow-hidden rounded-[1.75rem] bg-thermal-900/10 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          policies.map((p, i) => (
+            <article class="bg-travertine-50 p-7 md:p-9" data-reveal data-delay={(i % 4) * 0.06}>
+              <h3 class="font-serif text-[1.3rem] leading-tight text-thermal-900">{p.title}</h3>
+              <p class="mt-3 text-[0.92rem] leading-relaxed text-muted">{p.text}</p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ÎNTREBĂRI FRECVENTE -->
+  <section class="bg-travertine-50 py-24 md:py-32">
+    <div class="container-x grid gap-16 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-4">
+        <SectionHeading eyebrow="Întrebări frecvente" title="Ce ne întreabă oaspeții" size="md" />
+        <p class="mt-8 text-muted" data-reveal>
+          Nu găsiți răspunsul? Sunați la <a href={site.phoneHref} class="link-underline font-semibold text-thermal-800">{site.phone}</a>
+          sau scrieți-ne la <a href={`mailto:${site.email}?subject=${subject}`} class="link-underline font-semibold text-thermal-800">{site.email}</a>.
+        </p>
+      </div>
+      <div class="lg:col-span-8">
+        <div class="divide-y divide-thermal-900/10 border-y border-thermal-900/10">
+          {
+            faq.map((item, i) => (
+              <details class="group py-6" data-reveal data-delay={i * 0.03}>
+                <summary class="flex cursor-pointer list-none items-start justify-between gap-6">
+                  <h3 class="font-serif text-[1.3rem] leading-snug text-thermal-900">{item.q}</h3>
+                  <span class="faq-icon mt-1 shrink-0 text-copper-600 transition-transform duration-500 ease-[var(--ease-out-expo)]">
+                    <Plus size={20} stroke-width={1.6} />
+                  </span>
+                </summary>
+                <p class="mt-4 max-w-2xl text-[0.97rem] leading-relaxed text-muted">{item.a}</p>
+              </details>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <CTASection text={`${bookingLabel} pentru perioada dorită, direct în programul hotelului.`} />
+</BaseLayout>

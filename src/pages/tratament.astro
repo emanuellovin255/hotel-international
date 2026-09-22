@@ -1,0 +1,161 @@
+---
+import { Image } from 'astro:assets';
+import { Stethoscope, Sparkle, Activity } from '@lucide/astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import PriceNote from '../components/PriceNote.astro';
+import CTASection from '../components/CTASection.astro';
+import { water, procedures, indications, bioresonance } from '../data/treatments';
+import { photo } from '../lib/photos';
+---
+
+<BaseLayout
+  title="Bază de tratament"
+  description="Baza de tratament a Hotelului Internațional din Băile Herculane: electroterapie, magnetodiaflux, laser, aerosoli, kinetoterapie și apă geotermală termo-sulfuroasă."
+  image={photo('tratament/01')}
+>
+  <PageHero
+    eyebrow="Bază de tratament"
+    crumb="Tratament"
+    title='Aparatură nouă, <em class="italic-serif">apă veche de două milenii</em>'
+    subtitle="Procedurile se efectuează în hotel, sub atenta supraveghere a unui personal specializat. Liftul ajunge până la baza de tratament."
+    image={photo('tratament/02')}
+    alt="Procedură în baza de tratament a hotelului"
+  />
+
+  <!-- APA -->
+  <section class="bg-travertine-100 py-24 md:py-32">
+    <div class="container-x grid gap-16 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-5">
+        <SectionHeading eyebrow="Factorul curativ" title='Apa <em class="italic-serif">geotermală</em>' size="md" />
+        <p class="lead mt-8" data-reveal>
+          Apa folosită de hotel este {water.type}, cu {water.mineralisation} și {water.note}.
+        </p>
+        <p class="mt-6 text-muted" data-reveal>
+          Este recomandată în reumatismul cronic degenerativ, reumatismul abarticular, sechelele musculo-articulare
+          posttraumatice și afecțiunile neurologice cronice periferice.
+        </p>
+      </div>
+      <div class="lg:col-span-7">
+        <div class="overflow-hidden rounded-[1.75rem]" data-reveal-img>
+          <div class="aspect-[16/10]">
+            <Image
+              src={photo('piscina/02')}
+              alt="Bazinul cu apă termo-sulfuroasă al hotelului"
+              widths={[640, 1024, 1400]}
+              sizes="(min-width: 1024px) 55vw, 100vw"
+              class="img-cover"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROCEDURI -->
+  <section class="bg-thermal-900 py-24 text-travertine-50 md:py-32">
+    <div class="container-x">
+      <SectionHeading
+        eyebrow="Proceduri"
+        title="Ce se face în baza de tratament"
+        text="Procedurile se stabilesc după o consultație medicală, în funcție de afecțiune și de durata sejurului."
+        light
+      />
+      <ul class="mt-16 grid gap-px overflow-hidden rounded-[1.75rem] bg-travertine-100/10 sm:grid-cols-2 lg:grid-cols-5">
+        {
+          procedures.map((p, i) => (
+            <li class="flex items-center gap-4 bg-thermal-900 p-7" data-reveal data-delay={(i % 5) * 0.05}>
+              <Activity size={20} stroke-width={1.3} class="shrink-0 text-copper-300" />
+              <span class="font-serif text-[1.15rem] leading-tight">{p}</span>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mt-16 grid gap-5 md:grid-cols-3">
+        {
+          [photo('tratament/01'), photo('tratament/02'), photo('spa/01')].map((src, i) => (
+            <div class="overflow-hidden rounded-[1.5rem]" data-reveal-img data-delay={i * 0.12}>
+              <div class="aspect-[4/3]">
+                <Image src={src} alt="Procedură în baza de tratament" widths={[400, 760]} sizes="(min-width: 768px) 32vw, 100vw" class="img-cover" />
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- INDICAȚII -->
+  <section class="bg-travertine-50 py-24 md:py-32">
+    <div class="container-x">
+      <SectionHeading eyebrow="Indicații de cură" title="Pentru ce se vine la Herculane" />
+      <div class="mt-16 grid gap-px overflow-hidden rounded-[1.75rem] bg-thermal-900/10 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          indications.map((ind, i) => (
+            <article class="bg-travertine-50 p-7 md:p-9" data-reveal data-delay={(i % 4) * 0.06}>
+              <Stethoscope size={22} stroke-width={1.3} class="text-copper-600" />
+              <h3 class="mt-6 font-serif text-[1.3rem] leading-tight text-thermal-900">{ind.title}</h3>
+              <p class="mt-3 text-[0.92rem] leading-relaxed text-muted">{ind.text}</p>
+            </article>
+          ))
+        }
+      </div>
+      <p class="mt-10 max-w-3xl text-sm text-muted" data-reveal>
+        Informațiile de mai sus sunt orientative. Procedurile potrivite pentru dumneavoastră se stabilesc de medicul
+        balneolog, la consultația de la sosire.
+      </p>
+    </div>
+  </section>
+
+  <!-- BIOREZONANȚĂ -->
+  <section class="bg-travertine-100 py-24 md:py-32">
+    <div class="container-x grid gap-16 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-5">
+        <p class="eyebrow" data-reveal>Nou</p>
+        <h2 class="display-md mt-6" data-split>
+          Analize prin <em class="italic-serif">biorezonanță electromagnetică</em>
+        </h2>
+        <p class="lead mt-8" data-reveal>
+          Un set complet de rapoarte despre starea organismului, făcut chiar în hotel, în completarea curei balneare.
+        </p>
+        <div class="mt-10 overflow-hidden rounded-[1.5rem]" data-reveal-img>
+          <div class="aspect-[4/3]">
+            <Image
+              src={photo('tratament/03')}
+              alt="Aparatul de analize prin biorezonanță electromagnetică"
+              widths={[500, 900]}
+              sizes="(min-width: 1024px) 40vw, 100vw"
+              class="img-cover"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="lg:col-span-7 lg:pl-8">
+        <h3 class="eyebrow font-sans" data-reveal>Rapoarte</h3>
+        <ul class="mt-7 grid gap-x-10 gap-y-3 text-[0.95rem] text-muted sm:grid-cols-2" data-reveal>
+          {
+            bioresonance.map((b) => (
+              <li class="flex gap-2.5">
+                <Sparkle size={14} stroke-width={1.6} class="mt-1.5 shrink-0 text-copper-400" />
+                {b}
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-travertine-50 pb-24 md:pb-32">
+    <div class="container-x">
+      <PriceNote />
+    </div>
+  </section>
+
+  <CTASection
+    image={photo('tratament/02')}
+    title='Un sejur de <em class="italic-serif">tratament</em>'
+    text="Pachetele de tratament, numărul de proceduri incluse și tarifele lor se văd în programul de rezervări al hotelului."
+  />
+</BaseLayout>

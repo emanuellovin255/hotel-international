@@ -1,0 +1,122 @@
+---
+import { Phone, Mail, MapPin, ArrowUpRight, CalendarCheck } from '@lucide/astro';
+import Logo from './Logo.astro';
+import { nav, site, mapsLink, bookingEngine } from '../data/site';
+import { url } from '../lib/url';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="grain relative overflow-hidden bg-thermal-950 pb-28 text-travertine-100 lg:pb-0">
+  <div class="container-x relative pt-24 lg:pt-32">
+    <div class="grid gap-14 lg:grid-cols-12 lg:gap-10">
+      <div class="lg:col-span-4">
+        <Logo id="logo-footer" class="text-travertine-50" />
+        <p class="mt-7 max-w-sm text-[0.95rem] leading-relaxed text-travertine-100/65">
+          Hotel de trei stele în inima stațiunii Băile Herculane, cu bază proprie de tratament, bazin cu apă
+          termo-sulfuroasă de la sursă și camere cu vedere spre Munții Domogled.
+        </p>
+        <a
+          href={bookingEngine}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-8 inline-flex items-start gap-3 rounded-2xl border border-travertine-100/10 bg-travertine-100/[0.04] p-4 text-sm text-travertine-100/80 transition-colors hover:border-copper-400/40 hover:text-travertine-50"
+        >
+          <CalendarCheck size={20} stroke-width={1.5} class="mt-0.5 shrink-0 text-copper-400" />
+          <span>Tarifele și camerele libere se văd în programul de rezervări al hotelului.</span>
+        </a>
+      </div>
+
+      <div class="lg:col-span-3">
+        <h3 class="eyebrow eyebrow-light font-sans">Contact</h3>
+        <ul class="mt-6 space-y-4 text-[0.95rem]">
+          <li>
+            <a href={mapsLink} target="_blank" rel="noopener noreferrer" class="group flex gap-3 text-travertine-100/80 transition-colors hover:text-travertine-50">
+              <MapPin size={18} stroke-width={1.5} class="mt-1 shrink-0 text-copper-400" />
+              <span>{site.address.street}<br />{site.address.city}, {site.address.county}<br />{site.address.zip}</span>
+            </a>
+          </li>
+          <li>
+            <a href={site.phoneHref} class="flex items-center gap-3 text-travertine-100/80 transition-colors hover:text-travertine-50">
+              <Phone size={18} stroke-width={1.5} class="shrink-0 text-copper-400" />
+              {site.phone}
+            </a>
+          </li>
+          <li>
+            <a href={site.phone2Href} class="flex items-center gap-3 text-travertine-100/80 transition-colors hover:text-travertine-50">
+              <Phone size={18} stroke-width={1.5} class="shrink-0 text-copper-400" />
+              {site.phone2}
+            </a>
+          </li>
+          <li>
+            <a href={`mailto:${site.email}`} class="flex items-center gap-3 break-all text-travertine-100/80 transition-colors hover:text-travertine-50">
+              <Mail size={18} stroke-width={1.5} class="shrink-0 text-copper-400" />
+              {site.email}
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="lg:col-span-2">
+        <h3 class="eyebrow eyebrow-light font-sans">Explorați</h3>
+        <ul class="mt-6 space-y-3 text-[0.95rem]">
+          <li><a href={url('/')} class="link-underline text-travertine-100/80 hover:text-travertine-50">Acasă</a></li>
+          {
+            nav.map((item) => (
+              <li>
+                <a href={url(item.href)} class="link-underline text-travertine-100/80 hover:text-travertine-50">
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="lg:col-span-3">
+        <h3 class="eyebrow eyebrow-light font-sans">Bun de știut</h3>
+        <div class="mt-6 grid grid-cols-2 gap-4 text-sm">
+          <div>
+            <p class="text-travertine-100/65">Check-in</p>
+            <p class="font-serif text-lg text-travertine-50">{site.checkIn}</p>
+          </div>
+          <div>
+            <p class="text-travertine-100/65">Check-out</p>
+            <p class="font-serif text-lg text-travertine-50">{site.checkOut}</p>
+          </div>
+        </div>
+        <p class="mt-6 text-[0.95rem] text-travertine-100/70">
+          Acces gratuit la bazinul termal, la saună și la sala de fitness, pentru oaspeții hotelului.
+        </p>
+        <a
+          href={bookingEngine}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="arrow-link mt-6 whitespace-nowrap text-copper-300 hover:text-copper-200"
+        >
+          Disponibilitate și tarife
+          <ArrowUpRight size={15} />
+        </a>
+      </div>
+    </div>
+
+    <div class="mt-20 flex flex-col items-start justify-between gap-6 border-t border-travertine-100/10 py-8 text-xs text-travertine-100/65 md:flex-row md:items-center">
+      <p>© {year} {site.name} ***, Băile Herculane. Toate drepturile rezervate.</p>
+      <div class="flex flex-wrap items-center gap-x-6 gap-y-2">
+        <a href={site.bookingComUrl} target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 hover:text-travertine-50">
+          Booking.com <ArrowUpRight size={13} />
+        </a>
+        <a href={url('/informatii-utile')} class="hover:text-travertine-50">Informații utile</a>
+        <a href="https://anpc.ro/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 hover:text-travertine-50">
+          ANPC <ArrowUpRight size={13} />
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div aria-hidden="true" class="pointer-events-none select-none overflow-hidden">
+    <p class="whitespace-nowrap text-center font-serif text-[15vw] leading-[0.82] tracking-[-0.04em] text-travertine-100/[0.05]">
+      Hotel <span class="italic-serif">Internațional</span>
+    </p>
+  </div>
+</footer>

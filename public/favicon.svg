@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#082129"/>
+  <!-- Izvorul termal: picătura -->
+  <path d="M32 13c7.5 9.4 12 15.6 12 21.2A12 12 0 0 1 20 34.2C20 28.6 24.5 22.4 32 13Z" fill="#c98f56"/>
+  <!-- Unda de apă -->
+  <path d="M14 47c4.5 0 4.5 3.4 9 3.4s4.5-3.4 9-3.4 4.5 3.4 9 3.4 4.5-3.4 9-3.4" fill="none" stroke="#4da4ae" stroke-width="3.2" stroke-linecap="round"/>
+</svg>

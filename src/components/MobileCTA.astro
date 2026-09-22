@@ -1,0 +1,45 @@
+---
+import { Phone, Mail, CalendarCheck } from '@lucide/astro';
+import { site, bookingEngine, bookingLabel } from '../data/site';
+---
+
+<div data-mobile-cta class="mobile-cta fixed inset-x-3 bottom-3 z-30 lg:hidden">
+  <div class="grid grid-cols-[1fr_1fr_1.4fr] gap-1.5 rounded-full border border-white/10 bg-thermal-900/90 p-1.5 shadow-2xl shadow-thermal-950/30 backdrop-blur-xl">
+    <a
+      href={site.phoneHref}
+      aria-label={`Sună la ${site.phone}`}
+      class="flex items-center justify-center gap-1.5 rounded-full py-3 text-[0.66rem] font-semibold uppercase tracking-[0.1em] text-travertine-50"
+    >
+      <Phone size={15} stroke-width={1.8} /> Sună
+    </a>
+    <a
+      href={`mailto:${site.email}`}
+      aria-label={`Scrie la ${site.email}`}
+      class="flex items-center justify-center gap-1.5 rounded-full py-3 text-[0.66rem] font-semibold uppercase tracking-[0.1em] text-travertine-50"
+    >
+      <Mail size={15} stroke-width={1.8} /> Email
+    </a>
+    <a
+      href={bookingEngine}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={bookingLabel}
+      class="flex items-center justify-center gap-1.5 rounded-full bg-copper-400 py-3 text-[0.66rem] font-semibold uppercase tracking-[0.1em] text-thermal-950"
+    >
+      <CalendarCheck size={15} stroke-width={1.8} /> Tarife
+    </a>
+  </div>
+</div>
+
+<style>
+  .mobile-cta {
+    transform: translateY(140%);
+    transition: transform 0.7s var(--ease-out-expo);
+  }
+  :global(.cta-visible) .mobile-cta {
+    transform: none;
+  }
+  :global(.menu-open) .mobile-cta {
+    transform: translateY(140%);
+  }
+</style>
