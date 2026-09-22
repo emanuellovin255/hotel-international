@@ -13,9 +13,11 @@ interface Props {
   title?: string;
   description?: string;
   image?: ImageMetadata;
+  /** Cortina cu numele hotelului, la deschiderea site-ului. */
+  intro?: boolean;
 }
 
-const { title, description = site.description, image = photo('piscina/01') } = Astro.props;
+const { title, description = site.description, image = photo('piscina/01'), intro = false } = Astro.props;
 
 const longTitle = `${title} | ${site.shortName}, Băile Herculane`;
 const fullTitle = title
@@ -106,6 +108,35 @@ const jsonLd = {
   </head>
   <body>
     <a href="#main" class="skip-link">Sari la conținut</a>
+
+    {
+      intro && (
+        <div
+          class="intro-curtain fixed inset-0 z-[90] flex flex-col items-center justify-center gap-4 bg-thermal-950 text-travertine-50"
+          aria-hidden="true"
+        >
+          <div class="overflow-hidden">
+            <p class="intro-line flex gap-1.5 text-copper-400">
+              {Array.from({ length: site.stars }).map(() => (
+                <svg viewBox="0 0 24 24" class="h-3 w-3" fill="currentColor">
+                  <path d="M12 1.6l2.7 6.5 7 .6-5.3 4.6 1.6 6.8-6-3.6-6 3.6 1.6-6.8L2.3 8.7l7-.6z" />
+                </svg>
+              ))}
+            </p>
+          </div>
+          <div class="overflow-hidden">
+            <p class="intro-line font-serif text-[clamp(2.6rem,9vw,5.5rem)] leading-[1.1] tracking-[-0.015em]">
+              Hotel <span class="italic-serif text-copper-300">Internațional</span>
+            </p>
+          </div>
+          <div class="overflow-hidden">
+            <p class="intro-line text-[0.6rem] font-semibold uppercase tracking-[0.34em] text-travertine-100/55">
+              Băile Herculane
+            </p>
+          </div>
+        </div>
+      )
+    }
 
     <Header />
     <main id="main" tabindex="-1">
