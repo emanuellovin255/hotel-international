@@ -6,17 +6,21 @@ import type { GalleryItem } from '../components/Gallery.astro';
 import CTASection from '../components/CTASection.astro';
 import { photo, photos } from '../lib/photos';
 
-const groups: { id: string; label: string; folder: string; alt: string }[] = [
-  { id: 'exterior', label: 'Hotelul', folder: 'exterior', alt: 'Hotelul Internațional din Băile Herculane' },
-  { id: 'camere', label: 'Camere', folder: '', alt: '' },
-  { id: 'piscina', label: 'Bazin', folder: 'piscina', alt: 'Bazinul hotelului' },
-  { id: 'spa', label: 'SPA și tratament', folder: '', alt: '' },
-  { id: 'restaurant', label: 'Restaurant', folder: 'restaurant', alt: 'Restaurantul hotelului' },
-  { id: 'imprejurimi', label: 'Împrejurimi', folder: 'imprejurimi', alt: 'Împrejurimile hotelului' },
+const filters = [
+  { id: 'exterior', label: 'Hotelul' },
+  { id: 'camere', label: 'Camere' },
+  { id: 'piscina', label: 'Bazin' },
+  { id: 'spa', label: 'SPA și tratament' },
+  { id: 'restaurant', label: 'Restaurant' },
+  { id: 'imprejurimi', label: 'Împrejurimi' },
 ];
 
+// Ordinea contează: o poză folosită în mai multe locuri rămâne în prima categorie
+// din listă, așa că vederile spre munte stau la „Împrejurimi”, nu la „Camere”.
 const items: GalleryItem[] = [
   ...photos('exterior').map((src, i) => ({ src, alt: `Hotelul Internațional – ${i + 1}`, cat: 'exterior' })),
+  ...photos('receptie').map((src, i) => ({ src, alt: `Recepția hotelului – ${i + 1}`, cat: 'exterior' })),
+  ...photos('imprejurimi').map((src, i) => ({ src, alt: `Împrejurimile hotelului – ${i + 1}`, cat: 'imprejurimi' })),
   ...['camere/dubla-balcon', 'camere/apartament-2-terase', 'camere/apartament-fara-terasa', 'camere/single'].flatMap(
     (folder) => photos(folder).map((src, i) => ({ src, alt: `Cameră la Hotel Internațional – ${i + 1}`, cat: 'camere' })),
   ),
@@ -25,11 +29,9 @@ const items: GalleryItem[] = [
   ...photos('tratament').map((src, i) => ({ src, alt: `Baza de tratament – ${i + 1}`, cat: 'spa' })),
   ...photos('restaurant').map((src, i) => ({ src, alt: `Restaurantul hotelului – ${i + 1}`, cat: 'restaurant' })),
   ...photos('conferinte').map((src, i) => ({ src, alt: `Sala de conferințe – ${i + 1}`, cat: 'restaurant' })),
-  ...photos('receptie').map((src, i) => ({ src, alt: `Recepția hotelului – ${i + 1}`, cat: 'exterior' })),
-  ...photos('imprejurimi').map((src, i) => ({ src, alt: `Împrejurimile hotelului – ${i + 1}`, cat: 'imprejurimi' })),
 ];
 
-// Elimină duplicatele: aceeași poză poate apărea în mai multe camere.
+// Elimină duplicatele: aceeași poză poate apărea la mai multe camere.
 const seen = new Set<string>();
 const unique = items.filter((item) => {
   if (seen.has(item.src.src)) return false;
@@ -37,7 +39,6 @@ const unique = items.filter((item) => {
   return true;
 });
 
-const filters = groups.map(({ id, label }) => ({ id, label }));
 ---
 
 <BaseLayout
