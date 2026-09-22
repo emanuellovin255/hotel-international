@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://emanuellovin255.github.io/hotel-international/sitemap.xml
